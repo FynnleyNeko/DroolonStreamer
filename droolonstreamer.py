@@ -10,12 +10,12 @@ from mjpeg_streamer import MjpegServer, Stream
 # Initialize argument parser
 desc = "This application captures the ASeeVR preview images and outputs them via a configurable MJPEG stream for use in ETVR or other external applications. Made by FynnleyNeko"
 parser = argparse.ArgumentParser(description = desc)
+parser.add_argument("-a", "--address", default="127.0.0.1", metavar = "127.0.0.1", type = str, help = "Set the listening address of the MJPEG server / stream.")
+parser.add_argument("-p", "--port", default=8080, choices = np.arange(1024, 65536, 1), metavar = "[1024-65536] (Default: 8080)", type = int, help = "Set the port of the MJPEG server / stream.")
 parser.add_argument("-f", "--framerate", default=120, choices = np.arange(30, 121, 1), metavar = "[30-120] (Default: 120)", type = int, help = "Set the output framerate of the stream (not the capture framerate, this will always be your monitor refresh rate to ensure low latency).")
 parser.add_argument("-q", "--quality", default=90, choices = np.arange(10, 101, 1), metavar = "[10-100] (Default: 90)", type = int, help = "Set the JPEG output quality of the stream, lower this if you need the stream externally and run into bandwidth limitations. Should never cause issues locally.")
-parser.add_argument("-l", "--left_gamma", default=1.0, choices = np.arange(0.50, 2.01, 0.01), metavar = "[0.50-2.00] (Default: 1.0)", type = float, help = "Adjust the gamma (brightness curve) of the left camera. If your cameras are very contrasty this can in some cases make ETVR happier, but this is a LAST RESORT option, as it can raise the black value of your pupil and make stuff perform A LOT worse too.")
-parser.add_argument("-r", "--right_gamma", default=1.0, choices = np.arange(0.50, 2.01, 0.01), metavar = "[0.50-2.00] (Default: 1.0)", type = float, help = "Adjust the gamma (brightness curve) of the left camera. If your cameras are very contrasty this can in some cases make ETVR happier, but this is a LAST RESORT option, as it can raise the black value of your pupil and make stuff perform A LOT worse too.")
-parser.add_argument("-p", "--port", default=8080, choices = np.arange(1024, 65536, 1), metavar = "[1024-65536] (Default: 8080)", type = int, help = "Set the port of the MJPEG server / stream.")
-parser.add_argument("-a", "--address", default="127.0.0.1", metavar = "127.0.0.1", type = str, help = "Set the listening address of the MJPEG server / stream.")
+parser.add_argument("-l", "--left_gamma", default=1.0, choices = np.around(np.arange(0.50, 2.01, 0.01), decimals=2), metavar = "[0.50-2.00] (Default: 1.0)", type = float, help = "Adjust the gamma (brightness curve) of the left camera. If your cameras are very contrasty this can in some cases make ETVR happier, but this is a LAST RESORT option, as it can raise the black value of your pupil and make stuff perform A LOT worse too.")
+parser.add_argument("-r", "--right_gamma", default=1.0, choices = np.around(np.arange(0.50, 2.01, 0.01), decimals=2), metavar = "[0.50-2.00] (Default: 1.0)", type = float, help = "Adjust the gamma (brightness curve) of the right camera. If your cameras are very contrasty this can in some cases make ETVR happier, but this is a LAST RESORT option, as it can raise the black value of your pupil and make stuff perform A LOT worse too.")
 args = parser.parse_args()
 
 # Initialize variables
@@ -83,7 +83,7 @@ def on_frame_arrived(frame: Frame, capture_control: InternalCaptureControl):
         final = frame.crop(2,frame.height-241,322,frame.height-1).convert_to_bgr()
 
         # If there is a gamma adjustment, apply it via cv2.LUT, seems to be the cheapest way
-        if left_gamma != 1.0:
+        if args.left_gamma != 1.0:
             final.frame_buffer = cv2.LUT(final.frame_buffer, leftLUT)
 
         # Write the final frame to the stream
@@ -114,7 +114,7 @@ def on_frame_arrived(frame: Frame, capture_control: InternalCaptureControl):
         final = frame.crop(2,frame.height-241,322,frame.height-1).convert_to_bgr()
 
         # If there is a gamma adjustment, apply it via cv2.LUT, seems to be the cheapest way
-        if right_gamma != 1.0:
+        if args.right_gamma != 1.0:
             final.frame_buffer = cv2.LUT(final.frame_buffer, rightLUT)
 
         # Write the final frame to the stream
