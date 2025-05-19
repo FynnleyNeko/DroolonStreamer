@@ -1,0 +1,6 @@
+freesimplegui==5.2.0.post1
+mjpeg_streamer==2024.2.8
+windows_captre==1.4.2
+numpy==2.2.5
+opencv-python==4.11.0.86
+
