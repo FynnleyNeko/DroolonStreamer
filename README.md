@@ -6,3 +6,6 @@
 | -q / --quality | 10-100 (Default: 90) | Set the JPEG output quality of the stream, lower this if you need the stream externally and run into bandwidth limitations. Should never cause issues locally. |
 | -l / --left_gamma | 0.50-2.00 (Default: 1.0) | Adjust the gamma (brightness curve) of the left camera. If your cameras are very contrasty this can in some cases make ETVR happier, but this is a LAST RESORT option, as it can raise the black value of your pupil and make stuff perform A LOT worse too. |
 | -r / --right_gamma | 0.50-2.00 (Default: 1.0) | Adjust the gamma (brightness curve) of the right camera. If your cameras are very contrasty this can in some cases make ETVR happier, but this is a LAST RESORT option, as it can raise the black value of your pupil and make stuff perform A LOT worse too. |
+
+Build using nuitka with: 
+```python -m nuitka --windows-console-mode=attach --enable-plugins=tk-inter --onefile --standalone droolonstreamer.py```
