@@ -1,2 +1,8 @@
-# DroolonStreamer
-This application captures the ASeeVR preview images and outputs them via a configurable MJPEG stream for use in ETVR or other external applications.
+| Option | Range / Default | Description |
+| --- | --- | --- |
+| -a  / --address | 127.0.0.1 | Set the listening address of the MJPEG server / stream. |
+| -p / --port | 1024-65536 (Default: 8080) | Set the port of the MJPEG server / stream. |
+| -f / --framerate | 30-120 (Default: 120) | Set the output framerate of the stream (not the capture framerate, this will always be your monitor refresh rate to ensure low latency). |
+| -q / --quality | 10-100 (Default: 90) | Set the JPEG output quality of the stream, lower this if you need the stream externally and run into bandwidth limitations. Should never cause issues locally. |
+| -l / --left_gamma | 0.50-2.00 (Default: 1.0) | Adjust the gamma (brightness curve) of the left camera. If your cameras are very contrasty this can in some cases make ETVR happier, but this is a LAST RESORT option, as it can raise the black value of your pupil and make stuff perform A LOT worse too. |
+| -r / --right_gamma | 0.50-2.00 (Default: 1.0) | Adjust the gamma (brightness curve) of the right camera. If your cameras are very contrasty this can in some cases make ETVR happier, but this is a LAST RESORT option, as it can raise the black value of your pupil and make stuff perform A LOT worse too. |
