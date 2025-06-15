@@ -1,6 +1,9 @@
 # Fynnleys Droolon Streamer
 ![screenshot](https://github.com/user-attachments/assets/2022d825-85aa-48a3-86b7-a50434270516)
 
+### Note
+**[DroolonStreamer got a spiritual successor](https://github.com/FynnleyNeko/PiCamLite) called PiCamLite!** The new tool allows higher framerates in EyeTrackVR and fully replaces the aSeeVR runtime to save your CPU cycles by cutting out aSeeVRs tracking! And even better? *All that while being 13MB smaller than DroolonStreamer!*
+
 # Usage
 
 | Option | Range / Default | Description |
